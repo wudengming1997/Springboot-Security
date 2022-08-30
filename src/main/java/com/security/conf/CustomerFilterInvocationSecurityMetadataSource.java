@@ -60,12 +60,9 @@ public class CustomerFilterInvocationSecurityMetadataSource implements FilterInv
         String url = ((FilterInvocation) o).getRequestUrl();
 
         RedisUtil redisUtil = SpringUtil.getBean(RedisUtil.class);
-        String roleString = String.valueOf(redisUtil.get(url));
-        if (!StringUtils.isEmpty(roleString) && !"null".equals(roleString)) {
-            String[] split = null;
-            split = roleString.split(",");
-            return SecurityConfig.createList(split);
-        } else {
+        if (!StringUtils.isEmpty(redisUtil.get(url))){
+            return SecurityConfig.createListFromCommaDelimitedString(String.valueOf(redisUtil.get(url)));
+        }else {
             return SecurityConfig.createList("ROLE_LOGIN");
         }
     }
