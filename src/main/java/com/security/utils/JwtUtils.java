@@ -23,7 +23,7 @@ public class JwtUtils {
     //生成jwt
     public String generateToken(String username){
         Date nowDate = new Date();
-        Date expireDate = new Date(nowDate.getTime() * expire);
+        Date expireDate = new Date(nowDate.getTime() + expire);
         return Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setSubject(username)
